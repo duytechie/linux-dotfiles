@@ -7,6 +7,10 @@ DONE="[\e[1;32mDONE\e[0m]"
 LOGFILE="hyprland-install.log"
 exec > >(tee -a "$LOGFILE") 2>&1
 
+echo -e "$INFO Initializing pacman keyring..."
+sudo pacman-key --init
+sudo pacman-key --populate archlinux
+
 echo -e "$INFO Updating system and installing core packages..."
 
 sudo pacman -Syu --noconfirm --needed base-devel git
@@ -21,7 +25,7 @@ sudo pacman -S --noconfirm \
   zsh git git-delta \
   ghostty bluez bluez-utils pulseaudio-bluetooth man \
   pam-u2f libfido2 keychain copyq telegram-desktop \
-  obs-studio flameshot mpv bitwarden
+  obs-studio flameshot mpv bitwarden thunar
 
 echo -e "$INFO Installing Hyprland and Wayland packages..."
 
@@ -46,10 +50,8 @@ yay --version
 echo -e "$INFO Installing AUR and extra apps using Yay..."
 
 yay -S --noconfirm \
-  obsidian keepassxc firefox 1password-cli btop tmux starship \
-  ykman yubico-authenticator-bin npm go yazi \
-  swaylock-effects wlogout pavucontrol noto-fonts-emoji mako \
-  blueman nm-applet hyprpolkitagent microsoft-edge-stable-bin \
+  obsidian firefox 1password-cli btop tmux starship \
+  ykman yubico-authenticator-bin npm go yazi brightnessctl thunar-archive-plugin swaylock-effects wlogout pavucontrol noto-fonts-emoji mako network-manager-applet blueman nm-applet hyprpolkitagent microsoft-edge-stable-bin \
   ttf-meslo-nerd-font-powerlevel10k ttf-nerd-fonts-symbols ttf-jetbrains-mono-nerd
 
 echo -e "$DONE All packages installed successfully!"
