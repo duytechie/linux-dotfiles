@@ -7,13 +7,19 @@ DONE="[\e[1;32mDONE\e[0m]"
 LOGFILE="hyprland-install.log"
 exec > >(tee -a "$LOGFILE") 2>&1
 
+sleep 3
+
 echo -e "$INFO Initializing pacman keyring..."
 sudo pacman-key --init
 sudo pacman-key --populate archlinux
 
+sleep 3
+
 echo -e "$INFO Updating system and installing core packages..."
 
 sudo pacman -Syu --noconfirm --needed base-devel
+
+sleep 3
 
 echo -e "$INFO Installing core CLI + GUI apps..."
 
@@ -27,11 +33,15 @@ sudo pacman -S --noconfirm \
   pam-u2f libfido2 keychain copyq telegram-desktop \
   obs-studio flameshot mpv bitwarden thunar
 
+sleep 3
+
 echo -e "$INFO Installing Hyprland and Wayland packages..."
 
 sudo pacman -S --noconfirm \
   hyprland kitty wofi xdg-desktop-portal-hyprland waybar \
   qt5-wayland qt6-wayland hyprpaper hyprsunset
+
+sleep 3
 
 # Install Yay
 if ! command -v yay &>/dev/null; then
@@ -44,10 +54,14 @@ else
   echo -e "$INFO Yay is already installed."
 fi
 
+sleep 3
+
 echo -e "$INFO Verifying Yay..."
 yay --version
 
 echo -e "$INFO Installing AUR and extra apps using Yay..."
+
+sleep 3
 
 yay -S --noconfirm \
   obsidian firefox 1password-cli btop tmux starship \
@@ -55,10 +69,15 @@ yay -S --noconfirm \
   ttf-meslo-nerd-font-powerlevel10k ttf-nerd-fonts-symbols ttf-jetbrains-mono-nerd ghostty
 
 echo -e "$DONE All packages installed successfully!"
+
+sleep 3
+
 echo -e "$INFO Manual configuration and dotfiles can be applied next."
 
 echo -e "$INFO Enabling Bluetooth service..."
 sudo systemctl enable --now bluetooth.service
+
+sleep 3
 
 echo -e "$INFO Installing and enabling GDM display manager..."
 yay -S --noconfirm gdm
