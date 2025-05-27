@@ -60,8 +60,8 @@ echo -e "$INFO Manual configuration and dotfiles can be applied next."
 echo -e "$INFO Enabling Bluetooth service..."
 sudo systemctl enable --now bluetooth.service
 
-echo -e "$INFO Installing and enabling SDDM display manager..."
-sudo pacman -S --noconfirm sddm
-sudo systemctl enable --now sddm
+echo -e "$INFO Installing and enabling GDM display manager..."
+yay -S --noconfirm gdm
+sudo systemctl enable sddm
 
-echo -e "$DONE SDDM enabled as default login manager and Bluetooth service active!"
+echo -e "$DONE GDM enabled as default login manager and Bluetooth service active!"
