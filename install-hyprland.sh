@@ -23,7 +23,7 @@ sudo pacman -S --noconfirm \
   zathura zathura-pdf-mupdf gammastep \
   noto-fonts ttf-opensans ttf-firacode-nerd noto-fonts-cjk \
   zsh git git-delta \
-  ghostty bluez bluez-utils pulseaudio-bluetooth man \
+  bluez bluez-utils pulseaudio-bluetooth man \
   pam-u2f libfido2 keychain copyq telegram-desktop \
   obs-studio flameshot mpv bitwarden thunar
 
@@ -52,7 +52,7 @@ echo -e "$INFO Installing AUR and extra apps using Yay..."
 yay -S --noconfirm \
   obsidian firefox 1password-cli btop tmux starship \
   ykman yubico-authenticator-bin npm go yazi brightnessctl thunar-archive-plugin swaylock-effects wlogout pavucontrol noto-fonts-emoji mako network-manager-applet blueman nm-applet hyprpolkitagent microsoft-edge-stable-bin \
-  ttf-meslo-nerd-font-powerlevel10k ttf-nerd-fonts-symbols ttf-jetbrains-mono-nerd
+  ttf-meslo-nerd-font-powerlevel10k ttf-nerd-fonts-symbols ttf-jetbrains-mono-nerd ghostty
 
 echo -e "$DONE All packages installed successfully!"
 echo -e "$INFO Manual configuration and dotfiles can be applied next."
