@@ -9,37 +9,46 @@ exec > >(tee -a "$LOGFILE") 2>&1
 
 sleep 3
 
+### PART 1: Base System Setup ###
 echo -e "$INFO Initializing pacman keyring..."
 sudo pacman-key --init
 sudo pacman-key --populate archlinux
 
-sleep 3
+echo -e "$INFO Updating system and installing base-devel + git..."
+sudo pacman -Syu --noconfirm --needed base-devel git
 
-echo -e "$INFO Updating system and installing core packages..."
-
-sudo pacman -Syu --noconfirm --needed base-devel
-
-sleep 3
-
-echo -e "$INFO Installing core CLI + GUI apps..."
-
-sudo pacman -S --noconfirm \
+BASE_PACKAGES=(
   neovim tldr fzf wget curl tar unzip gzip gtop fastfetch \
   fd ripgrep bat eza tree-sitter tree-sitter-cli \
-  zathura zathura-pdf-mupdf gammastep \
-  noto-fonts ttf-opensans ttf-firacode-nerd noto-fonts-cjk \
-  zsh git git-delta \
-  bluez bluez-utils pulseaudio-bluetooth man \
-  pam-u2f libfido2 keychain copyq telegram-desktop \
-  obs-studio flameshot mpv bitwarden thunar
+  zsh git git-delta man thunar pam-u2f libfido2 keychain copyq \
+  zathura zathura-pdf-mupdf gammastep
+)
+
+
+
+echo -e "$INFO Installing base packages..."
+for pkg in "${BASE_PACKAGES[@]}"; do
+  echo -e "$INFO Installing: $pkg"
+  sudo pacman -S --noconfirm --needed "$pkg" || echo "$INFO Failed to install: $pkg"
+done
 
 sleep 3
 
-echo -e "$INFO Installing Hyprland and Wayland packages..."
+### PART 2: GUI Apps + Hyprland Setup ###
 
-sudo pacman -S --noconfirm \
+GUI_PACKAGES=(
+  noto-fonts ttf-opensans ttf-firacode-nerd noto-fonts-cjk \
+  bluez bluez-utils pulseaudio-bluetooth \
+  flameshot mpv \
   hyprland kitty wofi xdg-desktop-portal-hyprland waybar \
-  qt5-wayland qt6-wayland hyprpaper hyprsunset
+  qt5-wayland qt6-wayland hyprpaper hyprsunset gdm
+)
+
+echo -e "$INFO Installing GUI + Hyprland packages..."
+for pkg in "${GUI_PACKAGES[@]}"; do
+  echo -e "$INFO Installing: $pkg"
+  sudo pacman -S --noconfirm --needed "$pkg" || echo "$INFO Failed to install: $pkg"
+done
 
 sleep 3
 
@@ -54,33 +63,36 @@ else
   echo -e "$INFO Yay is already installed."
 fi
 
-sleep 3
-
 echo -e "$INFO Verifying Yay..."
 yay --version
 
-echo -e "$INFO Installing AUR and extra apps using Yay..."
-
 sleep 3
 
-yay -S --noconfirm \
-  obsidian firefox 1password-cli btop tmux starship \
-  ykman yubico-authenticator-bin npm go yazi brightnessctl thunar-archive-plugin swaylock-effects wlogout pavucontrol noto-fonts-emoji mako network-manager-applet blueman nm-applet hyprpolkitagent microsoft-edge-stable-bin \
-  ttf-meslo-nerd-font-powerlevel10k ttf-nerd-fonts-symbols ttf-jetbrains-mono-nerd ghostty
+echo -e "$INFO Installing AUR packages using Yay..."
+
+AUR_PACKAGES=(
+  obsidian firefox btop tmux starship ghostty font-viewer font-manager \
+  ykman yubico-authenticator-bin npm go yazi brightnessctl \
+  thunar-archive-plugin swaylock-effects wlogout pavucontrol \
+  noto-fonts-emoji mako network-manager-applet blueman nm-applet \
+  hyprland-polkit-agent microsoft-edge-stable-bin \
+  ttf-meslo-nerd ttf-nerd-fonts-symbols ttf-jetbrains-mono-nerd ttf-google-fonts-git ttf-ms-fonts
+)
+
+for pkg in "${AUR_PACKAGES[@]}"; do
+  echo -e "$INFO Installing AUR package: $pkg"
+  yay -S --noconfirm --needed "$pkg" || echo "$INFO Failed to install: $pkg"
+done
 
 echo -e "$DONE All packages installed successfully!"
+echo -e "$INFO Manual configuration and dotfiles can be applied next."
 
 sleep 3
-
-echo -e "$INFO Manual configuration and dotfiles can be applied next."
 
 echo -e "$INFO Enabling Bluetooth service..."
 sudo systemctl enable --now bluetooth.service
 
-sleep 3
-
-echo -e "$INFO Installing and enabling GDM display manager..."
-yay -S --noconfirm gdm
-sudo systemctl enable sddm
+echo -e "$INFO Enabling GDM display manager..."
+sudo systemctl enable gdm
 
 echo -e "$DONE GDM enabled as default login manager and Bluetooth service active!"
