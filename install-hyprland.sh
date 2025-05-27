@@ -13,7 +13,7 @@ sudo pacman-key --populate archlinux
 
 echo -e "$INFO Updating system and installing core packages..."
 
-sudo pacman -Syu --noconfirm --needed base-devel git
+sudo pacman -Syu --noconfirm --needed base-devel
 
 echo -e "$INFO Installing core CLI + GUI apps..."
 
