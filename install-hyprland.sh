@@ -76,7 +76,7 @@ AUR_PACKAGES=(
   thunar-archive-plugin swaylock-effects wlogout pavucontrol \
   noto-fonts-emoji mako network-manager-applet blueman nm-applet \
   hyprland-polkit-agent microsoft-edge-stable-bin \
-  ttf-meslo-nerd ttf-nerd-fonts-symbols ttf-jetbrains-mono-nerd ttf-google-fonts-git ttf-ms-fonts
+  ttf-meslo-nerd ttf-nerd-fonts-symbols ttf-jetbrains-mono-nerd ttf-ms-fonts
 )
 
 for pkg in "${AUR_PACKAGES[@]}"; do
